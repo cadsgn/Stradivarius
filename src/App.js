@@ -1,18 +1,18 @@
 import React, { Component } from 'react';
-import Map from './Map';
+import Map from './components/Map';
 
 class Main extends Component {
 
 	render() {
 		return(
-			<div style={{ margin: '100px' }}>
+			<>
+				<h1>Prueba técnica Stradivarius</h1>
 				<Map
 					google={this.props.google}
 					center={{lat: 41.3851, lng: 2.1734}}
-					height='400px'
 					zoom={15}
 				/>
-			</div>
+			</>
 		);
 	}
 }

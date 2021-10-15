@@ -1,11 +1,39 @@
 import React, { Component } from 'react';
-import { withGoogleMap, GoogleMap, withScriptjs, InfoWindow, Marker } from "react-google-maps";
+import { withGoogleMap, GoogleMap, withScriptjs, Marker } from "react-google-maps";
 import Geocode from "react-geocode";
 import Autocomplete from 'react-google-autocomplete';
 import { GoogleMapsAPI } from '../client-config';
+import styled from 'styled-components';
+import MarkersRedux from './markersRedux';
 
 Geocode.setApiKey( GoogleMapsAPI );
 Geocode.enableDebug();
+
+const MainContainer = styled.div`
+	display: flex;
+	flex-flow: column;
+	height: 100%;
+` 
+
+const ContainerElement = styled.div`
+	position: relative;
+	display: flex;
+	flex-flow: column;
+	height: 100%;
+	align-items: center;
+` 
+
+const MapElement = styled.div`
+	position: absolute;
+	display: flex;
+	flex-flow: column;
+	height: 100%;
+	width: 100%;
+` 
+
+const GenericDiv = styled.div`
+	height: 100%;
+` 
 
 class Map extends Component{
 
@@ -217,15 +245,6 @@ class Map extends Component{
 					           defaultZoom={ this.props.zoom }
 					           defaultCenter={{ lat: this.state.mapPosition.lat, lng: this.state.mapPosition.lng }}
 					>
-						{/* InfoWindow on top of marker */}
-						<InfoWindow
-							onClose={this.onInfoWindowClose}
-							position={{ lat: ( this.state.markerPosition.lat + 0.0018 ), lng: this.state.markerPosition.lng }}
-						>
-							<div>
-								<span style={{ padding: 0, margin: 0 }}>{ this.state.address }</span>
-							</div>
-						</InfoWindow>
 						{/*Marker*/}
 						<Marker google={this.props.google}
 						        name={'Dolores park'}
@@ -237,11 +256,10 @@ class Map extends Component{
 						{/* For Auto complete Search Box */}
 						<Autocomplete
 							style={{
-								width: '100%',
+								position: 'absolute',
+								top: '16px',
+								width: '20%',
 								height: '40px',
-								paddingLeft: '16px',
-								marginTop: '2px',
-								marginBottom: '500px'
 							}}
 							onPlaceSelected={ this.onPlaceSelected }
 							types={['(regions)']}
@@ -252,43 +270,45 @@ class Map extends Component{
 		);
 		let map;
 		if( this.props.center.lat !== undefined ) {
-			map = <div>
-				<div>
-					<div className="form-group">
-						<label htmlFor="">City</label>
-						<input type="text" name="city" className="form-control" onChange={ this.onChange } readOnly="readOnly" value={ this.state.city }/>
-					</div>
-					<div className="form-group">
-						<label htmlFor="">Area</label>
-						<input type="text" name="area" className="form-control" onChange={ this.onChange } readOnly="readOnly" value={ this.state.area }/>
-					</div>
-					<div className="form-group">
-						<label htmlFor="">State</label>
-						<input type="text" name="state" className="form-control" onChange={ this.onChange } readOnly="readOnly" value={ this.state.state }/>
-					</div>
-					<div className="form-group">
-						<label htmlFor="">Address</label>
-						<input type="text" name="address" className="form-control" onChange={ this.onChange } readOnly="readOnly" value={ this.state.address }/>
-					</div>
+			map = <MainContainer>
+			<>
+				<div className="form-group">
+					<label htmlFor="">City</label>
+					<input type="text" name="city" className="form-control" onChange={ this.onChange } readOnly="readOnly" value={ this.state.city }/>
 				</div>
-
+				<div className="form-group">
+					<label htmlFor="">Area</label>
+					<input type="text" name="area" className="form-control" onChange={ this.onChange } readOnly="readOnly" value={ this.state.area }/>
+				</div>
+				<div className="form-group">
+					<label htmlFor="">State</label>
+					<input type="text" name="state" className="form-control" onChange={ this.onChange } readOnly="readOnly" value={ this.state.state }/>
+				</div>
+				<div className="form-group">
+					<label htmlFor="">Address</label>
+					<input type="text" name="address" className="form-control" onChange={ this.onChange } readOnly="readOnly" value={ this.state.address }/>
+				</div>
+				<MarkersRedux/>
+			</>
 				<AsyncMap
 					googleMapURL={`https://maps.googleapis.com/maps/api/js?key=${GoogleMapsAPI}&libraries=places`}
 					loadingElement={
-						<div style={{ height: `100%` }} />
+						<GenericDiv />
 					}
 					containerElement={
-						<div style={{ height: this.props.height }} />
+						<ContainerElement />
 					}
 					mapElement={
-						<div style={{ height: `100%` }} />
+						<MapElement data-cy={"map"} />
 					}
 				/>
-			</div>
+			</MainContainer>
+			
 		} else {
-			map = <div style={{height: this.props.height}} />
+			map = <GenericDiv />
 		}
 		return( map )
 	}
 }
+
 export default Map

@@ -1,0 +1,17 @@
+[
+    {
+        "id": 1,
+        "City": "Barcelona",
+        "Area": "Barcelona",
+        "State": "Cataluña",
+        "Address": "Ede ekene, 08002 Barcelona, Spain"
+    },
+    
+    {
+        "id": 2,
+        "City": "Madrid",
+        "Area": "Madrid",
+        "State": "Comunity of Madrid",
+        "Address": "Madrid, Spain"
+    }
+]
