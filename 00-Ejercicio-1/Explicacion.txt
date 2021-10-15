@@ -1,0 +1,10 @@
+Ejercicio 1
+
+Veo dos problemas en este código:
+
+Si ampliamos el servicio y añadimos más opciones como podría ser streamingHD tal y como lo planteamos ahora 
+deberíamos modificar el código de RegisteredUser para obtener el precio correspondiente dentro de un nuevo else-if,
+lo cual no es lo más eficiente y puede dar pie a errores.
+
+Por otro lado la clase RegisteredUser utiliza la clase MultimediaContent con la cual no se comunica directamente.
+Por lo que cualquier cambio en MultimediaContent afectaría a RegisteredUser y esta clase no se podría dar cuenta.
